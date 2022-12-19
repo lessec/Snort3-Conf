@@ -25,8 +25,8 @@ sudo ldconfig
 ## Start to install Snort3
 Now, you can run installer!
 ```bash
-git clone https://github.com/lessec/centos9-snort3.git
-cd centos9-snort3
+git clone https://github.com/lessec/Snort3-Conf.git
+cd Snort3-Conf
 sh installer-snort3.sh
 sh configurator-snort3.sh
 sh installer-pp3.sh
