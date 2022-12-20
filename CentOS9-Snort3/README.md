@@ -2,11 +2,13 @@
 
 When before run `installer.sh`, first update CentOS 9 Stream
 ```bash
-sudo dnf update -y && sudo dnf install -y curl git vim
+sudo dnf update -y
+sudo dnf install -y curl git
 sudo dnf config-manager --set-enabled crb
 sudo dnf install -y dnf-plugins-core
 sudo dnf install -y epel-release
-sudo dnf upgrade -y && sudo reboot now
+sudo dnf upgrade -y
+sudo reboot now
 ```
 
 And please setup ldconfig
@@ -26,13 +28,13 @@ sudo ldconfig
 Now, you can run installer!
 ```bash
 git clone https://github.com/lessec/Snort3-Conf.git
-cd Snort3-Conf
+cd ./Snort3-Conf/CentOS9-Snort3
 sh installer-snort3.sh
 sh configurator-snort3.sh
 sh installer-pp3.sh
 ```
 
-## Run Snort
+## Run Snort3
 ```bash
-sudo snort -c /usr/local/snort/etc/snort/snort.lua --plugin-path /usr/local/snort/extra -k all -i ens160 -y -l /var/log/snort
+sudo snort -c /usr/local/snort/etc/snort/snort.lua --plugin-path /usr/local/snort/extra -k all -i [NET-NAME] -y -l /var/log/snort
 ```
