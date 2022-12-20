@@ -4,8 +4,26 @@
 ## Ready to run
 sudo -Sv
 ORGNPATH=$(pwd)
+read -p "Allow ALL IP to connect ELK? If wish press (Y) then press return " AallIP
+if [ "$AallIP" != "Y" ]; then
+    read -p "Allow just ONE IP to connect ELK? If wish press (Y) then press return " AOneIP
+    if [ "$AOneIP" = "Y" ]; then
+        read -p "Enter allow IP: " AllowIP
+    else
+        echo "Please setup Firewall(UFW) manually for ELK"
+    fi
+fi
+
+## Configure Port
 sudo apt install -y ufw
-sudo ssh allow ssh
+sudo ufw allow ssh
+if [ "$AallIP" = "Y" ]; then
+    sudo ufw allow 9200/tcp
+    sudo ufw allow 5601/tcp
+elif [ "$AOneIP" = "Y" ]; then
+    sudo ufw allow from "$AllowIP" to any port 9200
+    sudo ufw allow from "$AllowIP" to any port 5601
+fi
 sudo ufw enable
 
 ## Get Elasticsearch, Logstash and Kibana repo
@@ -30,10 +48,6 @@ sudo systemctl enable kibana
 sudo systemctl start elasticsearch
 sudo systemctl start logstash
 sudo systemctl start kibana
-
-## Configure Port
-#sudo ufw allow from <ALLOW IP> to any port 9200
-#sudo ufw allow from <ALLOW IP> to any port 5601
 
 ## Kibana Installation func
 sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token --scope kibana
